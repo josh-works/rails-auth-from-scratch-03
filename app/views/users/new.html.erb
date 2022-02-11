@@ -1,9 +1,28 @@
 <div>
-  <h1 class="font-bold text-4xl">Users#new</h1>
-  <p>Find me in app/views/users/new.html.erb</p>
+  <h1 class="font-bold text-4xl">Sign Up</h1>
 </div>
 
 <%= form_with model: @user, url: sign_up_path do |form| %>
   <%= render partial: "shared/form_errors", locals: { object: form.object } %>  
+  <div class="">
+    <%= form.label :email %>
+    <%= form.email_field :email, required: true %>
+  </div>
+  <div class="">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, required: true %>
+  </div>
+  
+  <div class="">
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true %>
+  </div>
+  <div class="">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation, required: true %>
+  </div>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+        <%= form.submit "Sign Up" %>
+  </button>
   
 <% end  %>
