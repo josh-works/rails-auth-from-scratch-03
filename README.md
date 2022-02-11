@@ -109,6 +109,14 @@ uh, don't do that in a prod-like environment, duh.
 ```
 $ rails g controller Users create new
 ```
+
+Here's what we've got, end of step 3:
+
+![it works](/images/create_user.jpg)
+
+## Step 4: create confirmation pages
+
+https://stevepolito.design/blog/rails-authentication-from-scratch/#step-4-create-confirmation-pages
 -------------
 
 ## To Explore
