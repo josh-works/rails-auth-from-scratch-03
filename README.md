@@ -84,6 +84,31 @@ And now fire up your rails server and visit http://localhost:3000/
 
 Sweet, sweet Tailwind, along with "good enough" seed data.
 
+OK, added a navbar via Tailwind, which I worked on originally here: https://github.com/josh-works/turbo-pagination/tree/main#tailwind-navbar
+
+There's lots more notes there, but this was mostly a copy-paste job. I would like to practice re-building from scratch. I think it'll be worth it, but I'll do that after I re-do at least the first half of the auth tutorial.
+
+
+## Step 2: add confirmed_at and password_digest columns
+
+```
+> rails g migration add_confirmed_at_and_password_columns_to_users confirmed_at:datetime password_digest:string
+```
+
+To run the migrations, you've got to delete all users, which means you'll have to delete all the book quotes that depend upon them. Fire up the rails console:
+
+```ruby
+BookQuote.destroy_all
+User.destroy_all
+```
+
+uh, don't do that in a prod-like environment, duh. 
+
+## Step 3 create signup pages
+
+```
+$ rails g controller Users create new
+```
 -------------
 
 ## To Explore
