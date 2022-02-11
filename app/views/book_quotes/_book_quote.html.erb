@@ -1,0 +1,22 @@
+<div id="<%= dom_id book_quote %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Quote:</strong>
+    <%= book_quote.quote %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Book title:</strong>
+    <%= book_quote.book_title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= link_to book_quote.user.first_name, user_path(book_quote.user), class: "underline" %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this book quote", book_quote, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this book quote', edit_book_quote_path(book_quote), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
