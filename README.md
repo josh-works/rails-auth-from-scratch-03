@@ -117,6 +117,111 @@ Here's what we've got, end of step 3:
 ## Step 4: create confirmation pages
 
 https://stevepolito.design/blog/rails-authentication-from-scratch/#step-4-create-confirmation-pages
+
+I'll pick up here next time. I'm liking how this whole tutorial is taking shape.
+
+# 2022-02-12
+
+Going to take a detour (and make a branch! How fancy! you should do the same) to explore a feature that will look like so, in my mind/map:
+
+- [ ] figure out how to use Trix editor (right? That's Basecamp's WYSIWYG editor) and tailwind for "longblob" text content
+- [ ] attach longblob to existing BookQuote model
+- [ ] stash this all on a separate branch until it's working. avoid commiting this actual file (readme.md) to the other branch, else the sequential/iterative flow of the document _might_ get a bit muddled.
+- [ ] Create a new `MobilityImprovementIdea` scaffold, where my primary 'acceptance criteria' is that there's a little map that lets me store it with a pin on a map.
+- [ ] on an index page render a page with all pins are rendered on a map somehow. I'd prefer leaflet or mapbox?
+
+these might all happen on separate days/sessions. 
+
+OK, got https://github.com/josh-works/rails-auth-from-scratch-03/issues/1 up 
+
+```
+$ hub browse --issues
+```
+
+opens the issues page.
+
+ran `rails action_text:install`, via https://levelup.gitconnected.com/trix-rich-editor-for-your-rails-6-application-7b89e2f33de8
+
+VIPS stuff. Please see the comment I left on this particular issue.
+
+Might need to add `gem install image_processing` to my Gemfile. 
+
+Taking so much time... https://twitter.com/josh_works/status/1492431136760287233
+
+## 2022-02-12
+
+ > NoMethodError (undefined method `create' for ActionDispatch::Response:Class):
+
+The next day. Phew. I think i installed that library. I did `gem install ` worked, all the code is up and running. 
+
+Also:
+
+```
+$ gem install ruby-vips
+$ export DISABLE_SPRING=true
+```
+
+I lost track of what I was doing, decided to throw the branch away and go from scratch again, and it's worth it. I saw this in the logs:
+
+```
+Ensure image_processing gem has been enabled so image uploads will work (remember to bundle!)
+```
+
+Lets do that
+
+`gem install image_processing`, `bundle install`, etc:
+
+![steps](/images/add-image-magic.jpg)
+
+let's run `bin/dev` again, see what we get.
+
+Hm, had to unbreak migrations problems. I'd run these migrations on a different branch, so the tables existed, was causing errors. Fixed with:
+
+```ruby
+unless table_exists?(:table_name)
+  create_table :table_name, id: primary_key_time do |t|
+```
+
+Everything looks good. I've got ActionText installed and the DB/server ready for it, but I've not (this time around) modified the view to display the trix editor. 
+
+![before](/images/pre-trix.jpg)
+
+Let's update the view. Should be a one-liner?
+
+```diff
+ --git a/app/views/book_quotes/_form.html.erb b/app/views/book_quotes/_form.html.erb
+index 1772724..7576289 100644
+--- a/app/views/book_quotes/_form.html.erb
++++ b/app/views/book_quotes/_form.html.erb
+@@ -13,7 +13,7 @@
+
+   <div class="my-5">
+     <%= form.label :quote %>
+-    <%= form.text_field :quote, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
++    <%= form.rich_text_area :quote, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+   </div>
+
+   <div class="my-5">
+```
+
+That might be hard to read. I just changed `form.text_field` to `form.rich_text_area`. Whoa.
+
+![the change](/images/one-line.jpg)
+
+So cool. It even saves correctly, but doesn't get rendered quite right.
+
+Now when I save it, though, It renders nooooot quite right:
+
+![not right](/images/not-what-we-want.jpg)
+
+
+I want to render this quote now in the way it looks in trix, like this:
+
+eh, it's not realllllly working quite right, maybe? I have not used it enough to know. Images deff don't work quite right, though they work in the editor:
+
+![broken](/images/broke.jpg)
+
+
 -------------
 
 ## To Explore
@@ -166,3 +271,26 @@ def index
   @book_quotes = BookQuote.all.includes(:user)
 end
 ```
+
+## Actually sending email in production
+
+- https://docs.sendgrid.com/for-developers/sending-email/rubyonrails
+- https://docs.sendgrid.com/for-developers/sending-email/quickstart-ruby
+- https://devcenter.heroku.com/articles/smtp
+
+## Making habit of github issues linked to PRs? Might help with commit tracing?
+
+## `rails db:migrate:status`
+
+I'm doing more with lots of migrations. Up, down, change, etc. 
+
+rails db:migrate failing with:
+
+![fail](/images/relation_exists.jpg)
+
+The fix: 
+
+https://stackoverflow.com/questions/7874330/rake-aborted-table-users-already-exists, I did this solution: https://stackoverflow.com/a/23362525/3210178
+
+Check the commits: 006143eee21850e3439ed8c1a239593a4d0c0d47
+
