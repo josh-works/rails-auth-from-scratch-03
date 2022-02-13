@@ -7,8 +7,23 @@
     <h1 class="font-bold text-4xl">Book quotes</h1>
     <%= link_to 'New book quote', new_book_quote_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
+  <!-- leaflet map, make partial later -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/jieter/Leaflet.encoded/master/Polyline.encoded.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <div id="map" style="width: 100%; height: 1000px"></div>
+  
+  <script type="text/javascript">
+    var map = L.map('map').setView([39.748733, -105.220105], 13);
+    L.tileLayer(
+        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+  </script>
 
   <div id="book_quotes" class="min-w-full">
+    <div id='map'></div>
+    <!-- /leaflet map, make partial later -->
     <%= render @book_quotes %>
   </div>
 </div>
