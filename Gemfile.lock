@@ -88,6 +88,7 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.0.0)
       railties (>= 6.0.0)
+    csv (3.2.2)
     debug (1.4.0)
       irb (>= 1.3.6)
       reline (>= 0.2.7)
@@ -230,6 +231,7 @@ DEPENDENCIES
   bootsnap
   capybara
   cssbundling-rails
+  csv
   debug
   faker
   jbuilder

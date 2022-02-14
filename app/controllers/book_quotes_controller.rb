@@ -1,3 +1,4 @@
+require 'csv'
 class BookQuotesController < ApplicationController
   before_action :set_book_quote, only: %i[ show edit update destroy ]
 
