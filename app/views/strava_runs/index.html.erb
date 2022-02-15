@@ -1,6 +1,7 @@
 <div>
   <h1 class="font-bold text-4xl">StravaRuns#index</h1>
   <p>Find me in app/views/strava_runs/index.html.erb</p>
+  <p><%= @runs %></p>
 </div>
 
 <!-- leaflet map, make partial later -->
@@ -9,18 +10,34 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <div id="map" style="width: 100%; height: 1000px"></div>
 
+
 <script type="text/javascript">
   var map = L.map('map').setView([39.748733, -105.220105], 13);
   L.tileLayer(
       'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 18,
       }).addTo(map);
-      
-      var encodedRoutes = [
-        "efyqFzj_aSBI?B?APEJANDF?NMPAPIb@@\\CLIVIN@fBVLARKFKDCVAZe@REDIPQBIHKNAJEN@NKDIJAZKTCJGXBFDJLDPAZHZ?XJf@HLL`@F^@^CVB\\CZ?`AA\\I^?RI^g@nAGXFZNTDNPX\\Rb@DNHp@HTC?DKTABB?@ECB?D?A@@G??A@BB??CB?@BA@?C?@ABD?E?ACBGHKDC?FUR?A?BCC?@@A@@CHAA^Px@T`BVnBd@tAV`D~@zB`@l@Vh@`@tAnAbBvBz@|@zAtAtAfAPTNVt@hBj@jArAbCv@lAl@pAj@bBj@hCb@`EPv@Tr@LPl@j@l@z@Xl@Rn@j@xAHJJE\\YLYD]A{@Ky@iAaFAOH]DENAF@FDLXp@dCv@`Ed@pBd@`DTnAz@|CvCbMbA|DpE~LnApCx@tBtJrSz@nAJTHXD`@ZtCb@`DXpA`@nAT`@jArA|CtD|AxAlCxBf@f@r@xBbBzDVt@j@pATr@ATm@f@kAxAqAfAgD`DiB|AwCxCmCvBuBtBcAx@iE~DuDbDyDvDkA~@CF@NVZh@`Aj@|@DPEC@B?CFE@SFBG?FC?AA@FQB@IPFIBKD?DG?CC?DE?BCE@BC?@GBFA?B?CCBBEBAGBA?@?AC@AD?AKFH??KCEF@FD?CCA@A@FACABB@?CDA?@E?ACCAD@IMDF?BE@AA?@?GDDE?BEA@CCD@AB?ECDB@ECF@AA?@AAD@G@?C@@CA@BBAGEFHEE?DACB?ACDBGCCFBIDDMAHBEEBDEI?DF@ICBD@E?D?CF@GAD?IBFAEA@FBE?CBDEB@@?CD@BGDD?FCEBBABAA@B@CGA?C@F?IA@?P@AGJ@BAG@A@DEDBEJ@C@AKC@B?C?H@K?MRERE?OUOk@GAEIOg@m@aAAEDO\\SRWLSBKNKJA^]JS?UKOa@iAGu@K_@@GZKb@YTC`@SPGHED?JIRCDBLCJKXAPIJOTQHUTc@Na@nAkBVOLSVITQRERWD@^M\\[^OHOLIX]d@y@^ETMXAZLx@Fr@XLOZSHITCPGBYECFMbBuAj@k@^QT_@VMj@{@\\YPWFGPCVKlAeAf@m@NGFKHADINOJQRQLCFEDM@DJORK^i@@@?JJZBCBFAABGH@GKC?@BC?@KAHCEDJ?@MJADAAC@OKBIPIPFDCEB@@CHJCQ?UDGHCA@DEADA", "cwuqFj|faSB??B@ENK@GD@?BACBBBA@CACL]BANFAKDCDQD?NMEBAD@??CDFF?NK@CCGDCFB?EEDAOFGD?AAMLCCGK@AEAILCECHBSAKAH@A?@BCA@C??KA?BDAI@@BA@GBBEBAEDJEHAA@D@EEE?FAKDGAHBACB@F?A@@BCT]t@WH?PKDE@IPK\\KBDB?TWRIDIPKFCH?RILCd@YTG?CADB@JMHILEj@ITOLL@RITARB@CHQPQHKCE?OT@LAP[XIDECe@NY\\OD]RUXUPIJAAKHYb@CFCAKVe@l@Mj@GNg@VMLu@Pe@Fa@V]LYPMDGAKDORAH@HCL@NDL?JJ`@ABACGF?B@B?EB??DBKD@BBLp@LTENKBQPQf@GLIF@BJDLLBHADb@r@JXP`@@HENGD?JQHKBALBBA@DBBC?@AI?FBICGAB@A@B?A?DB?CHM@GLE?KQ@C@JDIC@@BBAEFC@ACD??CADBFCC?CD@@DF?HKLA@GQHAB@BCAAC@??BKACAB@@CBHB?DIH@@ECCADI@CDE?A@AABMADGC@BCA?@DKB?CFDBC@@A@FC??BD?ACBD?GCEAB?ABDD@JMCA?HEHA?KMDBBAA@@DJIB?CBAEDBBCDB@GEA@E?@CEA?A@AA@EA@?AD?BPK@MFIM@@KD?IBBEKAFHHDA?CEB@CGAJB?CECEDN@JP?INADG@@BA?EIC?FB?CAB@?C"
+      var polyLines = [
+        "kyuqFzsgaSI@ED@HC?MBAHNl@b@v@x@nBLRJb@RDh@o@\m@|AqBjAqA|AqAh@g@pByA~@_Az@s@~DcEbB{A`@[l@]A@FA??dAs@dAiAvCqCt@{@`DyCxAoAf@k@\QZYX]hBcB~@s@dCuBvAyAfA_AR@HH`AbCNTN?DOFDKJCK@OADEIBLLGDBQEK[IE_@y@BDAPGJ?FGBS@s@v@I@KMKG?BHDGE@@@CSF}NlIsFnD]X[V~Q{I^k@\o@lBmBn@]\R@Q^G",
+        "mqsqFj`faS@X?Ig@h@}@p@IGa@gAMMKAOFIJKDSX]XEHQLCHe@^oAlAoAdAc@Zo@h@QHSGGe@Sa@gAiCmAcCQo@KGGKgAeCOUGSKICJ?JHL?j@@z@Ad@E\Wp@w@bAiDtCuAvAa@P]FIFYX]NI?QMq@H{AGc@BgAEF?BNACJFAEAA@BA?CKCBICL??DG?@CEAJ?ABBEG?DBEADAGE@?DB@HGHGAKII?wCTg@?]CI@SC_@Bk@EUBGF]`ASXQv@Cj@?l@Iz@BNEZ_@n@s@`Aa@Tg@TKHY\yA|@APDLLJPFXZDJDd@?d@BTJVNRTr@GXKPUTSLW\SLe@f@CF?HX\l@lAPf@FHFDHIHCDDCAJSB??ECBDA"
       ]
-  console.log(encodedRoutes);
-  for (let encoded of encodedRoutes ) {
+      console.log(polyLines);
+      
+       
+      // console.log("ruby");
+      // console.log(ruby);
+      // console.log("from_controller");
+      // console.log(from_controller)
+      // var runs = 'run'
+      // console.log("encodedRoutes");
+      // console.log(encodedRoutes)
+      // 
+      // console.log("runs");  
+      // console.log(runs)
+  for (var i = 0; i < polyLines.length; i++) {
+    console.log(polyLines[i]);
+  }
+  for (let encoded of polyLines ) {
     var coordinates = L.Polyline.fromEncoded(encoded).getLatLngs();
 
     L.polyline(
