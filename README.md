@@ -330,6 +330,39 @@ Here's what DOES work:
 
 ![works](/images/functioning.jpg)
 
+### Question
+
+I want to be able to have a list of Polylines generated in the controller available to my javascript in my view page, so I can modify the `Leaflet` map. I thought this would be easy, but it's been surprisingly difficult.
+
+Do you know how to do this? How to get polylines from a controller into a javascript function, so I can iterate through each one of them?
+
+Remember, this JS works:
+
+```javascript
+var polyLines = [ "kyua@", "mqsqF" ]
+for (var i = 0; i < polyLines.length; i++) {
+  map.draw(polyLines[i]);
+}
+```
+but this is what I'm getting in the actual HTML of the page:
+
+
+```
+var polyLines = [&quot;kyua@&quot;, &quot;mqsqF&quot; ]
+for (var i = 0; i < polyLines.length; i++) {
+  map.draw(polyLines[i]);
+}
+```
+
+I'll look up one-off JS files that might pair with views. How would you do this? Any suggestions?
+
+Here's some of the resources I have read, and tested as well as I could various implementations of these fixes:
+
+- https://stackoverflow.com/questions/2464966/how-to-pass-ruby-variables-to-a-javascript-function-in-a-rails-view/24456817#24456817
+
+ugh, too many to copy-paste. I feel _so_ dumb:
+
+![i feel dumb](/images/i-feel-dumb.jpg)
 -------------
 
 ## To Explore
