@@ -221,6 +221,114 @@ eh, it's not realllllly working quite right, maybe? I have not used it enough to
 
 ![broken](/images/broke.jpg)
 
+## 2022-02-13
+
+Blarg, burnt too much time with Trix, I don't care that much (yet) about the text field options, so I'm going to pick up a different thread for now. 
+
+I want to do things with "maps" in Rails. I've got a specific target endpoint, but for now, I'm going to see if I can do, in this session, at least a few things, more or less in this order:
+
+1. Get a 'leaflet' map embedded on `book_quotes#index`
+2. get the same map that I have on https://github.com/josh-works/strava_run_polylines_osm/tree/main embedded on `book_quotes#index`
+3. Add an IP address to each book quote, bound to a certain area, render pins on `book_quotes#index`
+
+
+First piece was easy. Lets make the actual runs show up now. 
+
+https://stackoverflow.com/questions/22900904/setting-up-leaflet-with-ruby-on-rails
+
+## 2022-02-14
+
+Spent a little more time on this.
+
+This morning, I managed to refresh my broken authentication stuff w/the Strava API (and w/Oauth):
+
+- https://cryptic-sea-38287.herokuapp.com/
+- https://github.com/josh-works/strava_run_polylines_osm/tree/main
+
+---------
+
+big progress. Getting lines rendered in rails. But really, _really_ struggling to pass them in from the view.
+
+I'd hoped to mock up something quick-and-dirty with hardcoding an instance variable from the controller, but having a bitch of a time getting it visible to the JS function in the view.
+
+https://stackoverflow.com/questions/2464966/how-to-pass-ruby-variables-to-a-javascript-function-in-a-rails-view/24456817#24456817
+
+I'm not the only one. How is this not a better-discussed problem? I basically cannot get a well-encoded polyline from the controller to the view. In my `script` tags, i have to do a weird view thing:
+
+```javascript
+var runPolyLines = <%= @runs %>
+console.log(runPolyLines)
+```
+but what gets written to the `@runs` ivar in the controller:
+
+![runs](/images/polyline.jpg)
+
+it even looks fine when I did a "test" render to the view:
+
+![close](/images/so-close.jpg)
+
+But when you inspect the HTML, you'll see that there's a lot of escaping going on.
+
+That escaping is causing the javascript to blow up. Sigh. Here's my javascript:
+
+```html
+<!-- app/views/strava_runs/index.html.erb -->
+<script type="text/javascript">
+        var polyLines = <%= @runs %>
+</script>
+```
+
+This causes an error:
+
+```
+Uncaught SyntaxError: expected expression, got '&'
+```
+
+And when I inspect the Javascript manifest, I see:
+
+
+![fucking-quot](/images/quot.jpg)
+
+Sigh. Something related to `html_safe`, I think. I've tried a lot of stupid debugging tricks, no dice. 
+
+Any ideas? 
+
+Here's what DOES work:
+
+```html
+<script type="text/javascript">
+  var map = L.map('map').setView([39.748733, -105.220105], 13);
+  L.tileLayer(
+      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+      }).addTo(map);
+      var polyLines = [
+        "kyuqFzsgaSI@ED@HC?MBAHNl@b@v@x@nBLRJb@RDh@o@\m@|AqBjAqA|AqAh@g@pByA~@_Az@s@~DcEbB{A`@[l@]A@FA??dAs@dAiAvCqCt@{@`DyCxAoAf@k@\QZYX]hBcB~@s@dCuBvAyAfA_AR@HH`AbCNTN?DOFDKJCK@OADEIBLLGDBQEK[IE_@y@BDAPGJ?FGBS@s@v@I@KMKG?BHDGE@@@CSF}NlIsFnD]X[V~Q{I^k@\o@lBmBn@]\R@Q^G",
+        "mqsqFj`faS@X?Ig@h@}@p@IGa@gAMMKAOFIJKDSX]XEHQLCHe@^oAlAoAdAc@Zo@h@QHSGGe@Sa@gAiCmAcCQo@KGGKgAeCOUGSKICJ?JHL?j@@z@Ad@E\Wp@w@bAiDtCuAvAa@P]FIFYX]NI?QMq@H{AGc@BgAEF?BNACJFAEAA@BA?CKCBICL??DG?@CEAJ?ABBEG?DBEADAGE@?DB@HGHGAKII?wCTg@?]CI@SC_@Bk@EUBGF]`ASXQv@Cj@?l@Iz@BNEZ_@n@s@`Aa@Tg@TKHY\yA|@APDLLJPFXZDJDd@?d@BTJVNRTr@GXKPUTSLW\SLe@f@CF?HX\l@lAPf@FHFDHIHCDDCAJSB??ECBDA"
+      ]
+      console.log(polyLines);
+
+  for (var i = 0; i < polyLines.length; i++) {
+    console.log(polyLines[i]);
+  }
+  for (let encoded of polyLines ) {
+    var coordinates = L.Polyline.fromEncoded(encoded).getLatLngs();
+
+    L.polyline(
+        coordinates,
+        {
+            color: 'blue',
+            weight: 3,
+            opacity: .7,
+            lineJoin: 'round'
+        }
+    ).addTo(map);
+  }
+  
+</script>
+```
+
+![works](/images/functioning.jpg)
 
 -------------
 
