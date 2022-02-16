@@ -1,15 +1,18 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
-  nickname: MyString
-  first_name: MyString
-  last_name: MyString
-  avatar: MyString
+  email: email_1@foo.com
+  nickname: user_1_nick
+  first_name: user_1_first_name
+  last_name: user_1_last_name
+  avatar: user_1_avatar
+  password_digest: password
 
 two:
-  email: MyString
-  nickname: MyString
-  first_name: MyString
-  last_name: MyString
-  avatar: MyString
+  email: user_2_email@foo.com
+  nickname: user_2_nickname
+  first_name: user_2_first
+  last_name: user_2_last
+  avatar: user_2_avatar
+  password_digest: password
+  
