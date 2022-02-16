@@ -363,11 +363,13 @@ Here's some of the resources I have read, and tested as well as I could various 
 ugh, too many to copy-paste. I feel _so_ dumb:
 
 ![i feel dumb](/images/i-feel-dumb.jpg)
--------------
 
-## To Explore
+Lastly, I'm going to try to read out the data from the CSV
 
-### N+1
+
+### To Explore later
+
+#### N+1
 
 I noticed a slew of DB calls (printed in the logs) when I swapped `book_quote.user_id` to `book_quote.user.first_name` and loaded the home page.
 
@@ -413,13 +415,13 @@ def index
 end
 ```
 
-## Actually sending email in production
+#### Actually sending email in production
 
 - https://docs.sendgrid.com/for-developers/sending-email/rubyonrails
 - https://docs.sendgrid.com/for-developers/sending-email/quickstart-ruby
 - https://devcenter.heroku.com/articles/smtp
 
-## Making habit of github issues linked to PRs? Might help with commit tracing?
+##e## Making habit of github issues linked to PRs? Might help with commit tracing?
 
 ## `rails db:migrate:status`
 
