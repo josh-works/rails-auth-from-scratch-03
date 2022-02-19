@@ -369,3 +369,7 @@ ugh, too many to copy-paste. I feel _so_ dumb:
 
 https://codequizzes.wordpress.com/2013/06/06/rails-javascript-workflow-rendering-javascript-partials/
 
+getting (kinda) some data from a controller to a view, via a div with a `data: {strava_runs: @strava_runs}` attribute. 
+
+Or something like this. I need better Javascript skills, primitives and stuff.
+
