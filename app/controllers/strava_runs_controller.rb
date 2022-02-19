@@ -8,7 +8,13 @@ class StravaRunsController < ApplicationController
   private
   
   def all_polylines
-    @all_polylines ||= get_run_data
+
+      
+      rows = CSV.read('./runs.csv', headers: true, header_converters: :symbol)
+      rows.map do |row|
+        run = StravaRun.new(row)
+        run.polyline
+      end
     
   end
   

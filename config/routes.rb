@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :point_of_interests
   get 'strava_runs/index'
   get 'users/create'
   get 'users/new'

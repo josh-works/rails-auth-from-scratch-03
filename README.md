@@ -363,75 +363,9 @@ Here's some of the resources I have read, and tested as well as I could various 
 ugh, too many to copy-paste. I feel _so_ dumb:
 
 ![i feel dumb](/images/i-feel-dumb.jpg)
--------------
 
-## To Explore
 
-### N+1
+## 2022-02-18
 
-I noticed a slew of DB calls (printed in the logs) when I swapped `book_quote.user_id` to `book_quote.user.first_name` and loaded the home page.
-
-In `app/views/book_quotes/_book_quote.html.erb`, the scaffold generated:
-
-```HTML+ERB
-<p class="my-5">
-  <strong class="block font-medium mb-1">User:</strong>
-  <%= book_quote.user_id %>
-</p>
-```
-
-Which just prints out integers. Not great. When I change to:
-
-```HTML+ERB
-<p class="my-5">
-  <strong class="block font-medium mb-1">User:</strong>
-  <%= book_quote.user.first_name %>
-</p>
-```
-
-This kicks off a ton of DB calls. (An `n+1`, technically)
-
-Question: What's the quickets way to fix this?
-
-Answer: 
-Here's what we have:
-
-```ruby
-# book_quotes_controller.rb
-# GET /book_quotes or /book_quotes.json
-def index
-  @book_quotes = BookQuote.all
-end
-```
-
-When we change it to the following, it becomes a single query again:
-
-```ruby
-# GET /book_quotes or /book_quotes.json
-def index
-  @book_quotes = BookQuote.all.includes(:user)
-end
-```
-
-## Actually sending email in production
-
-- https://docs.sendgrid.com/for-developers/sending-email/rubyonrails
-- https://docs.sendgrid.com/for-developers/sending-email/quickstart-ruby
-- https://devcenter.heroku.com/articles/smtp
-
-## Making habit of github issues linked to PRs? Might help with commit tracing?
-
-## `rails db:migrate:status`
-
-I'm doing more with lots of migrations. Up, down, change, etc. 
-
-rails db:migrate failing with:
-
-![fail](/images/relation_exists.jpg)
-
-The fix: 
-
-https://stackoverflow.com/questions/7874330/rake-aborted-table-users-already-exists, I did this solution: https://stackoverflow.com/a/23362525/3210178
-
-Check the commits: 006143eee21850e3439ed8c1a239593a4d0c0d47
+https://codequizzes.wordpress.com/2013/06/06/rails-javascript-workflow-rendering-javascript-partials/
 
